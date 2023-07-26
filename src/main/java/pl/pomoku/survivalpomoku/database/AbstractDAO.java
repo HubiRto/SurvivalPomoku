@@ -1,6 +1,7 @@
 package pl.pomoku.survivalpomoku.database;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public abstract class AbstractDAO<T> {
@@ -31,4 +32,13 @@ public abstract class AbstractDAO<T> {
     public abstract void update(T obj) throws SQLException;
 
     public abstract void delete(T obj) throws SQLException;
+
+    protected boolean tableExists() throws SQLException {
+        openConnection();
+        ResultSet resultSet = connection.getMetaData().getTables(null, null, table, null);
+        boolean exists = resultSet.next();
+        resultSet.close();
+        closeConnection();
+        return exists;
+    }
 }

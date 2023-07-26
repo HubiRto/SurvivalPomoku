@@ -2,7 +2,10 @@ package pl.pomoku.survivalpomoku.database;
 
 import pl.pomoku.survivalpomoku.Player;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static pl.pomoku.pomokupluginsrepository.text.Text.strToComp;
 import static pl.pomoku.survivalpomoku.SurvivalPomoku.plugin;
@@ -16,7 +19,7 @@ public class PlayerDAO extends AbstractDAO<Player> {
     @Override
     public void createTable() {
         try {
-            if (!tableExists(table)) {
+            if (!tableExists()) {
                 openConnection();
                 Statement statement = connection.createStatement();
 
@@ -26,7 +29,7 @@ public class PlayerDAO extends AbstractDAO<Player> {
                 statement.close();
                 closeConnection();
                 plugin.getServer().getConsoleSender().sendMessage(strToComp("<yellow>Stworzono tabelę: <aqua>"
-                                + table + " </aqua> w bazie danych."));
+                        + table + " </aqua> w bazie danych."));
             } else {
                 plugin.getServer().getConsoleSender().sendMessage(strToComp("<green>Wczytano tabelę: <aqua>"
                         + table + " </aqua> z bazy danych."));
@@ -34,15 +37,6 @@ public class PlayerDAO extends AbstractDAO<Player> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean tableExists(String tableName) throws SQLException {
-        openConnection();
-        ResultSet resultSet = connection.getMetaData().getTables(null, null, tableName, null);
-        boolean exists = resultSet.next();
-        resultSet.close();
-        closeConnection();
-        return exists;
     }
 
     @Override
