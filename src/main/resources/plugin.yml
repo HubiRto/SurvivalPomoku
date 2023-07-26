@@ -1,0 +1,4 @@
+name: SurvivalPomoku
+version: '${project.version}'
+main: pl.pomoku.survivalpomoku.SurvivalPomoku
+api-version: '1.20'

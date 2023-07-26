@@ -1,0 +1,9 @@
+database:
+  host: TestDatabase
+  port: 3306
+  username: "root"
+  password: "password"
+  database: "mc"
+  driver: "mariadb"
+  dialect: "org.hibernate.dialect.MySQL5Dialect"
+  classDriver: "org.mariadb.jdbc.Driver"
