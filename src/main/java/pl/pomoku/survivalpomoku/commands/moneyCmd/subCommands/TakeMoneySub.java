@@ -1,10 +1,11 @@
 package pl.pomoku.survivalpomoku.commands.moneyCmd.subCommands;
 
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pl.pomoku.survivalpomoku.entity.Account;
 import pl.pomoku.survivalpomoku.commandManagerLib.SubCommand;
+import pl.pomoku.survivalpomoku.entity.Account;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,25 +14,25 @@ import java.util.stream.Collectors;
 import static pl.pomoku.pomokupluginsrepository.text.Text.strToComp;
 import static pl.pomoku.survivalpomoku.SurvivalPomoku.plugin;
 
-public class ClearAccountSub implements SubCommand {
+public class TakeMoneySub implements SubCommand {
     @Override
     public String getName() {
-        return "clear";
+        return "take";
     }
 
     @Override
     public String getDescription() {
-        return "Czyści stan konta gracz na 0.0";
+        return "Zabiera pieniądze z konta gracza";
     }
 
     @Override
     public String getSyntax() {
-        return "/money clear <player>";
+        return "/money take <player> <amount>";
     }
 
     @Override
     public String getPermission() {
-        return "money.clear";
+        return "money.take";
     }
 
     @Override
@@ -42,6 +43,7 @@ public class ClearAccountSub implements SubCommand {
         };
     }
 
+    @SneakyThrows
     @Override
     public void perform(CommandSender sender, String[] args) {
         String playerName;
@@ -68,19 +70,23 @@ public class ClearAccountSub implements SubCommand {
             throw new RuntimeException(e);
         }
 
-        if(account == null){
+        if (account == null) {
             sender.sendMessage(strToComp("<red>Nie ma takiego gracza w bazie."));
             return;
         }
 
-        account.setMoney(0.0);
+        double amount;
 
         try {
-            plugin.getAccountDAO().update(account);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            amount = Double.parseDouble(args[1]);
+        } catch (Exception exception) {
+            sender.sendMessage(strToComp("<red>Użycie: <gray>" + getSyntax()));
+            return;
         }
 
-        sender.sendMessage(strToComp("<gray>Zresetowano stan konta graczu: <aqua>" + playerName));
+        account.setMoney(account.getMoney() + amount);
+        plugin.getAccountDAO().update(account);
+        sender.sendMessage(strToComp("<gray>Zabrano <red>-" + amount + "$</red> graczu: <aqua>"
+                + playerName + "</aqua> z stanu konta"));
     }
 }

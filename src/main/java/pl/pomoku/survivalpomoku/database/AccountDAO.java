@@ -1,7 +1,7 @@
 package pl.pomoku.survivalpomoku.database;
 
 import org.bukkit.entity.Player;
-import pl.pomoku.survivalpomoku.Account;
+import pl.pomoku.survivalpomoku.entity.Account;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

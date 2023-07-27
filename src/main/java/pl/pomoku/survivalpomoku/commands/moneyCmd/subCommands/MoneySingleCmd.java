@@ -1,13 +1,11 @@
 package pl.pomoku.survivalpomoku.commands.moneyCmd.subCommands;
 
 import lombok.SneakyThrows;
-import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pl.pomoku.survivalpomoku.Account;
+import pl.pomoku.survivalpomoku.entity.Account;
 import pl.pomoku.survivalpomoku.commandManagerLib.SubCommand;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static pl.pomoku.pomokupluginsrepository.text.Text.strToComp;

@@ -7,15 +7,13 @@ import org.reflections.Reflections;
 import pl.pomoku.pomokupluginsrepository.commands.EasyCommand;
 import pl.pomoku.survivalpomoku.commandManagerLib.MainCommand;
 import pl.pomoku.survivalpomoku.commands.moneyCmd.MoneyMainCmd;
-import pl.pomoku.survivalpomoku.database.DatabaseManager;
 import pl.pomoku.survivalpomoku.database.AccountDAO;
+import pl.pomoku.survivalpomoku.database.DatabaseManager;
+import pl.pomoku.survivalpomoku.manager.TimeMoneyManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @Getter
 public final class SurvivalPomoku extends JavaPlugin {
@@ -23,6 +21,7 @@ public final class SurvivalPomoku extends JavaPlugin {
     private AccountDAO accountDAO;
     public static SurvivalPomoku plugin;
     private MainCommand moneyCmd;
+    private TimeMoneyManager timeMoneyManager;
 
     @Override
     public void onEnable() {
@@ -36,32 +35,8 @@ public final class SurvivalPomoku extends JavaPlugin {
 
         loadListeners();
 
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-
-        // Pobieramy aktualną godzinę
-        long currentTimeMillis = System.currentTimeMillis();
-
-        // Ustawiamy czas, o którym chcemy, aby program się uruchomił (12:23)
-        long targetTimeMillis = getTargetTimeMillis(currentTimeMillis, 17, 33);
-
-        // Jeśli docelowy czas już minął dzisiaj, to ustawiamy go na następny dzień
-        if (targetTimeMillis <= currentTimeMillis) {
-            targetTimeMillis = getTargetTimeMillis(targetTimeMillis + TimeUnit.DAYS.toMillis(1), 12, 23);
-        }
-
-        // Obliczamy różnicę czasu między teraz a docelowym czasem
-        long initialDelayMillis = targetTimeMillis - currentTimeMillis;
-
-        // Ustawiamy zadanie, które będzie wypisywało wiadomość "Witaj, świecie!" co 24h (86400 sekund)
-        executorService.scheduleAtFixedRate(() -> System.out.println("Witaj, świecie!"), initialDelayMillis, 86400, TimeUnit.SECONDS);
-    }
-
-
-    private static long getTargetTimeMillis(long currentTimeMillis, int hour, int minute) {
-        long targetTimeMillis = currentTimeMillis;
-        targetTimeMillis = targetTimeMillis - targetTimeMillis % TimeUnit.DAYS.toMillis(1); // Wyzeruj czas do północy
-        targetTimeMillis += TimeUnit.HOURS.toMillis(hour) + TimeUnit.MINUTES.toMillis(minute); // Dodaj godzinę i minutę
-        return targetTimeMillis;
+        timeMoneyManager = new TimeMoneyManager();
+        timeMoneyManager.init();
     }
 
     @Override

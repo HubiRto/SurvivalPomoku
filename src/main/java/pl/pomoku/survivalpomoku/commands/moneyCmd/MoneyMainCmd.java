@@ -2,9 +2,7 @@ package pl.pomoku.survivalpomoku.commands.moneyCmd;
 
 import pl.pomoku.survivalpomoku.commandManagerLib.MainCommand;
 import pl.pomoku.survivalpomoku.commandManagerLib.argumentMatchers.ContainingAllCharsOfStringArgumentMatcher;
-import pl.pomoku.survivalpomoku.commands.moneyCmd.subCommands.ClearAccountSub;
-import pl.pomoku.survivalpomoku.commands.moneyCmd.subCommands.MoneyHelpSub;
-import pl.pomoku.survivalpomoku.commands.moneyCmd.subCommands.MoneySingleCmd;
+import pl.pomoku.survivalpomoku.commands.moneyCmd.subCommands.*;
 
 public class MoneyMainCmd extends MainCommand {
     public MoneyMainCmd() {
@@ -19,5 +17,7 @@ public class MoneyMainCmd extends MainCommand {
         subCommands.add(new ClearAccountSub());
         subCommands.add(new MoneyHelpSub());
         subCommands.add(new MoneySingleCmd());
+        subCommands.add(new AddMoneySub());
+        subCommands.add(new TakeMoneySub());
     }
 }

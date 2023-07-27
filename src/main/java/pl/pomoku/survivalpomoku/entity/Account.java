@@ -1,4 +1,4 @@
-package pl.pomoku.survivalpomoku;
+package pl.pomoku.survivalpomoku.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

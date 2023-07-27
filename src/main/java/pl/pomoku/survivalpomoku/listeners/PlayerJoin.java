@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import pl.pomoku.survivalpomoku.Account;
+import pl.pomoku.survivalpomoku.entity.Account;
 
 import java.sql.SQLException;
 
@@ -22,5 +22,7 @@ public class PlayerJoin implements Listener {
             account.setUuid(player.getUniqueId().toString());
             plugin.getAccountDAO().insert(account);
         }
+
+        plugin.getTimeMoneyManager().playerJoin(player);
     }
 }
