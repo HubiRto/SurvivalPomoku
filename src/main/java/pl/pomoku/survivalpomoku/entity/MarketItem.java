@@ -11,7 +11,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ShopItem {
+public class MarketItem {
     private int id;
     private double price;
     private String uuid;

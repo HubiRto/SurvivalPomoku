@@ -4,3 +4,4 @@ main: pl.pomoku.survivalpomoku.SurvivalPomoku
 api-version: '1.20'
 commands:
   money:
+  market:
