@@ -9,8 +9,9 @@ import pl.pomoku.pomokupluginsrepository.gui.PlayerMenuUtility;
 import pl.pomoku.survivalpomoku.commandManagerLib.MainCommand;
 import pl.pomoku.survivalpomoku.commands.marketCmd.MarketMainCmd;
 import pl.pomoku.survivalpomoku.commands.moneyCmd.MoneyMainCmd;
-import pl.pomoku.survivalpomoku.database.AccountDAO;
+import pl.pomoku.survivalpomoku.database.dao.AccountDAO;
 import pl.pomoku.survivalpomoku.database.DatabaseManager;
+import pl.pomoku.survivalpomoku.database.dao.MarketItemDAO;
 import pl.pomoku.survivalpomoku.manager.TimeMoneyManager;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,8 +20,11 @@ import java.util.HashMap;
 
 @Getter
 public final class SurvivalPomoku extends JavaPlugin {
+    //DATABASE
     private DatabaseManager databaseManager;
     private AccountDAO accountDAO;
+    private MarketItemDAO marketItemDAO;
+
     public static SurvivalPomoku plugin;
     private TimeMoneyManager timeMoneyManager;
     private final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
@@ -32,9 +36,14 @@ public final class SurvivalPomoku extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+
         databaseManager = new DatabaseManager();
+
         accountDAO = new AccountDAO(databaseManager);
         accountDAO.createTable();
+
+        marketItemDAO = new MarketItemDAO(databaseManager);
+        marketItemDAO.createTable();
 
         moneyCmd = new MoneyMainCmd();
         moneyCmd.registerMainCommand(this, "money");

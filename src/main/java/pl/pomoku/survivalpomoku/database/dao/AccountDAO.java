@@ -1,6 +1,8 @@
-package pl.pomoku.survivalpomoku.database;
+package pl.pomoku.survivalpomoku.database.dao;
 
 import org.bukkit.entity.Player;
+import pl.pomoku.survivalpomoku.database.AbstractDAO;
+import pl.pomoku.survivalpomoku.database.DatabaseManager;
 import pl.pomoku.survivalpomoku.entity.Account;
 
 import java.sql.PreparedStatement;

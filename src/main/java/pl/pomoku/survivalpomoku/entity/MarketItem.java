@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bukkit.inventory.ItemStack;
 
 import java.sql.Date;
 
@@ -16,5 +17,5 @@ public class MarketItem {
     private double price;
     private String uuid;
     private Date expiredDate;
-    private String item;
+    private ItemStack item;
 }

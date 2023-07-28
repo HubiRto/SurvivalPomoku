@@ -1,5 +1,7 @@
 package pl.pomoku.survivalpomoku.database;
 
+import pl.pomoku.survivalpomoku.utils.base64.Base64ConvertException;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,9 +27,9 @@ public abstract class AbstractDAO<T> {
     }
     public abstract void createTable();
 
-    public abstract T getById(int id) throws SQLException;
+    public abstract T getById(int id) throws SQLException, Base64ConvertException;
 
-    public abstract void insert(T obj) throws SQLException;
+    public abstract void insert(T obj) throws SQLException, Base64ConvertException;
 
     public abstract void update(T obj) throws SQLException;
 
