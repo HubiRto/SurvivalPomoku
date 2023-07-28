@@ -48,14 +48,14 @@ public class  AddMarketItemSub implements SubCommand {
             return;
         }
 
-        double price = Double.parseDouble(args[0]);
+        double price;
 
-//        try {
-//            price = Double.parseDouble(args[1]);
-//        } catch (Exception exception) {
-//            sender.sendMessage(strToComp("<red>Użycie: <gray>" + getSyntax()));
-//            return;
-//        }
+        try {
+            price = Double.parseDouble(args[0]);
+        } catch (Exception exception) {
+            sender.sendMessage(strToComp("<red>Użycie: <gray>" + getSyntax()));
+            return;
+        }
 
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
         if (itemInMainHand.getType() == AIR) {
