@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import static pl.pomoku.pomokupluginsrepository.text.Text.strToComp;
 import static pl.pomoku.survivalpomoku.SurvivalPomoku.plugin;
@@ -29,9 +31,9 @@ public class MarketItemDAO extends AbstractDAO<MarketItem> {
                 String createTableQuery = "CREATE TABLE " + table + " (" +
                         "id INT AUTO_INCREMENT PRIMARY KEY, " +
                         "uuid VARCHAR(255), " +
-                        "price DOUBLE " +
-                        "expired_date DATE " +
-                        "base64_item DATE " +
+                        "price DOUBLE, " +
+                        "expired_date DATE, " +
+                        "base64_item TEXT " +
                         ")";
                 statement.executeUpdate(createTableQuery);
 
@@ -71,6 +73,26 @@ public class MarketItemDAO extends AbstractDAO<MarketItem> {
         statement.close();
         closeConnection();
         return item;
+    }
+
+    public List<MarketItem> getAll() throws SQLException, Base64ConvertException {
+        openConnection();
+        String query = "SELECT * FROM " + table;
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        List<MarketItem> itemList = new ArrayList<>();
+        while (resultSet.next()) {
+            itemList.add(MarketItem.builder()
+                    .id(resultSet.getInt("id"))
+                    .uuid(resultSet.getString("uuid"))
+                    .price(resultSet.getDouble("price"))
+                    .expiredDate(resultSet.getDate("expired_date"))
+                    .item(Base64ItemStack.decode(resultSet.getString("base64_item")))
+                    .build());
+        }
+        resultSet.close();
+        statement.close();
+        return itemList;
     }
 
     @Override
