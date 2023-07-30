@@ -16,6 +16,7 @@ public class MarketItem {
     private int id;
     private double price;
     private String uuid;
+    private String player_name;
     private Date expiredDate;
     private ItemStack item;
 }

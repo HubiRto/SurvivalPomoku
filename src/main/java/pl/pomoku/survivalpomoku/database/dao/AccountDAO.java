@@ -4,11 +4,17 @@ import org.bukkit.entity.Player;
 import pl.pomoku.survivalpomoku.database.AbstractDAO;
 import pl.pomoku.survivalpomoku.database.DatabaseManager;
 import pl.pomoku.survivalpomoku.entity.Account;
+import pl.pomoku.survivalpomoku.entity.TimePlayer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import static pl.pomoku.pomokupluginsrepository.text.Text.strToComp;
 import static pl.pomoku.survivalpomoku.SurvivalPomoku.plugin;
@@ -73,6 +79,27 @@ public class AccountDAO extends AbstractDAO<Account> {
         String query = "SELECT * FROM " + table + " WHERE uuid = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, player.getUniqueId().toString());
+        ResultSet resultSet = statement.executeQuery();
+
+        Account account = null;
+        if (resultSet.next()) {
+            account = new Account();
+            account.setId(resultSet.getInt("id"));
+            account.setUuid(resultSet.getString("uuid"));
+            account.setMoney(resultSet.getDouble("money"));
+        }
+
+        resultSet.close();
+        statement.close();
+        closeConnection();
+        return account;
+    }
+
+    public Account getByPlayerUUID(String UUID) throws SQLException {
+        openConnection();
+        String query = "SELECT * FROM " + table + " WHERE uuid = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, UUID);
         ResultSet resultSet = statement.executeQuery();
 
         Account account = null;

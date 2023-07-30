@@ -31,6 +31,7 @@ public class MarketItemDAO extends AbstractDAO<MarketItem> {
                 String createTableQuery = "CREATE TABLE " + table + " (" +
                         "id INT AUTO_INCREMENT PRIMARY KEY, " +
                         "uuid VARCHAR(255), " +
+                        "player_name VARCHAR(255), " +
                         "price DOUBLE, " +
                         "expired_date DATE, " +
                         "base64_item TEXT " +
@@ -63,6 +64,7 @@ public class MarketItemDAO extends AbstractDAO<MarketItem> {
             item = MarketItem.builder()
                     .id(resultSet.getInt("id"))
                     .uuid(resultSet.getString("uuid"))
+                    .player_name(resultSet.getString("player_name"))
                     .price(resultSet.getDouble("price"))
                     .expiredDate(resultSet.getDate("expired_date"))
                     .item(Base64ItemStack.decode(resultSet.getString("base64_item")))
@@ -85,6 +87,7 @@ public class MarketItemDAO extends AbstractDAO<MarketItem> {
             itemList.add(MarketItem.builder()
                     .id(resultSet.getInt("id"))
                     .uuid(resultSet.getString("uuid"))
+                    .player_name(resultSet.getString("player_name"))
                     .price(resultSet.getDouble("price"))
                     .expiredDate(resultSet.getDate("expired_date"))
                     .item(Base64ItemStack.decode(resultSet.getString("base64_item")))
@@ -98,12 +101,13 @@ public class MarketItemDAO extends AbstractDAO<MarketItem> {
     @Override
     public void insert(MarketItem item) throws SQLException, Base64ConvertException {
         openConnection();
-        String query = "INSERT INTO " + table + " (uuid, price, expired_date, base64_item) VALUES (?,?,?,?)";
+        String query = "INSERT INTO " + table + " (uuid, player_name, price, expired_date, base64_item) VALUES (?,?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, item.getUuid());
-        statement.setDouble(2, item.getPrice());
-        statement.setDate(3, item.getExpiredDate());
-        statement.setString(4, Base64ItemStack.encode(item.getItem()));
+        statement.setString(2, item.getPlayer_name());
+        statement.setDouble(3, item.getPrice());
+        statement.setDate(4, item.getExpiredDate());
+        statement.setString(5, Base64ItemStack.encode(item.getItem()));
         statement.executeUpdate();
         statement.close();
         closeConnection();
@@ -117,9 +121,9 @@ public class MarketItemDAO extends AbstractDAO<MarketItem> {
     @Override
     public void delete(MarketItem item) throws SQLException {
         openConnection();
-        String query = "DELETE FROM " + table + " WHERE uuid = ?";
+        String query = "DELETE FROM " + table + " WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, item.getUuid());
+        statement.setInt(1, item.getId());
         statement.executeUpdate();
         statement.close();
         closeConnection();

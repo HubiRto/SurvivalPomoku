@@ -66,6 +66,7 @@ public class  AddMarketItemSub implements SubCommand {
         plugin.getMarketItemDAO().insert(MarketItem.builder()
                         .item(itemInMainHand)
                         .uuid(player.getUniqueId().toString())
+                        .player_name(player.getName())
                         .expiredDate(new Date(System.currentTimeMillis()))
                         .price(price)
                 .build());
