@@ -31,7 +31,7 @@ public class ConfirmTransactionMenu extends Menu {
 
     @Override
     public Component getMenuName() {
-        return strToComp("<dark_gary>Czy na pewno chcesz kupić?");
+        return strToComp("<dark_gray>Czy na pewno chcesz kupić?");
     }
 
     @Override
