@@ -99,7 +99,7 @@ public class ConfirmTransactionMenu extends Menu {
                 .build());
 
         inventory.setItem(6, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE)
-                .displayname(strToComp("<red><bold>POTWIERDZAM"))
+                .displayname(strToComp("<green><bold>POTWIERDZAM"))
                 .build());
 
         List<Component> lore = List.of(
@@ -111,5 +111,10 @@ public class ConfirmTransactionMenu extends Menu {
                 strToComp("<green>Kliknij prawym, aby zakupić"));
 
         inventory.setItem(4, new ItemBuilder(marketItem.getItem()).lore(lore).build());
+
+        for(int slotId = 0; slotId < this.getSlots(); slotId++){
+            ItemStack itemOnSlot = inventory.getItem(slotId);
+            if(itemOnSlot == null) inventory.setItem(slotId, FILLER_GLASS);
+        }
     }
 }

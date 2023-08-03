@@ -1,5 +1,7 @@
 package pl.pomoku.survivalpomoku.database;
 
+import lombok.SneakyThrows;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
