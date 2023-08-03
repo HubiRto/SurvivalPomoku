@@ -1,0 +1,12 @@
+# Storage data
+# MySql, MariaDb, PostgresSql etc.
+database:
+  host: localhost
+  port: 3306
+  driver: mariadb
+  user: admin
+  password: password
+  database: mc
+
+# OPTIONAL
+# Cache Database: Redis
